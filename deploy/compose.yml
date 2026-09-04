@@ -1,0 +1,73 @@
+name: yunxi
+
+services:
+  portal:
+    image: ${YUNXI_IMAGE:-10.50.2.92:15000/yunxi/platform:latest}
+    restart: always
+    environment:
+      - SVC=portal
+      - PORTAL_SECRET_KEY=${PORTAL_SECRET_KEY:?set in .env}
+      - PORTAL_TOKEN_HOURS=${PORTAL_TOKEN_HOURS:-12}
+      - COMPUTE_URL=/yunxi/compute/
+      - DATA_URL=/yunxi/data/
+      - CORS_ORIGINS=${YUNXI_PUBLIC_ORIGINS:-http://10.50.2.92}
+    ports:
+      - "127.0.0.1:18003:8003"
+    volumes:
+      - ./state/portal/yunxi_portal.db:/app/portal/backend/yunxi_portal.db
+    networks: [yunxi]
+
+  compute:
+    image: ${YUNXI_IMAGE:-10.50.2.92:15000/yunxi/platform:latest}
+    restart: always
+    environment:
+      - SVC=compute
+      - DATABASE_URL=postgresql://yunxi:${YUNXI_PG_PASSWORD:?set in .env}@postgres/yunxi_db
+      - CORS_ORIGINS=${YUNXI_PUBLIC_ORIGINS:-http://10.50.2.92}
+    ports:
+      - "127.0.0.1:18001:8001"
+    depends_on:
+      postgres: { condition: service_healthy }
+    networks: [yunxi]
+
+  data:
+    image: ${YUNXI_IMAGE:-10.50.2.92:15000/yunxi/platform:latest}
+    restart: always
+    environment:
+      - SVC=data
+      - DATABASE_URL=postgresql+psycopg://yunxi:${YUNXI_PG_PASSWORD:?set in .env}@postgres/yunxi_management_db
+      - CORS_ORIGINS=${YUNXI_PUBLIC_ORIGINS:-http://10.50.2.92}
+    ports:
+      - "127.0.0.1:18000:8000"
+    volumes:
+      - data-uploads:/app/platforms/data/backend/uploads
+      - data-outputs:/app/platforms/data/backend/outputs
+      - ./state/portal/yunxi_portal.db:/app/portal/backend/yunxi_portal.db:ro
+    depends_on:
+      postgres: { condition: service_healthy }
+    networks: [yunxi]
+
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=yunxi
+      - POSTGRES_PASSWORD=${YUNXI_PG_PASSWORD:?set in .env}
+      - POSTGRES_DB=yunxi_db
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./docker/init-multi-db.sql:/docker-entrypoint-initdb.d/10-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yunxi -d yunxi_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [yunxi]
+
+networks:
+  yunxi:
+
+volumes:
+  data-uploads:
+  data-outputs:
+  pg-data:

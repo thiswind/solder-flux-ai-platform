@@ -1,0 +1,402 @@
+/* ============ 云锡统一门户 — 样式(对齐两个现有平台浅色仪表盘风格) ============ */
+:root {
+  --blue: #2080f0;
+  --blue-dark: #1565d8;
+  --green: #18a058;
+  --text: #1f2329;
+  --muted: #8a9099;
+  --border: #e8ebf2;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --shadow: 0 1px 4px rgba(20, 30, 60, 0.06), 0 4px 16px rgba(20, 30, 60, 0.04);
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============ 登录 / 注册 页(主流网站样式: 满版品牌色 + 居中白卡) ============ */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #0ea5a4 100%);
+  position: relative;
+  overflow: hidden;
+}
+.auth-page::after {
+  content: "";
+  position: absolute;
+  width: 520px; height: 520px;
+  right: -160px; top: -160px;
+  background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 70%);
+}
+.auth-page::before {
+  content: "";
+  position: absolute;
+  width: 420px; height: 420px;
+  left: -140px; bottom: -140px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
+}
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 400px;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 36px 32px;
+  box-shadow: 0 20px 60px rgba(10, 25, 60, 0.25);
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.brand-logo .dot {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: var(--blue);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.brand-logo .dot svg { width: 22px; height: 22px; display: block; }
+.brand-logo .name { font-size: 19px; font-weight: 700; color: var(--text); letter-spacing: .5px; }
+.auth-card h1 { text-align: center; font-size: 22px; margin: 14px 0 4px; }
+.auth-card .sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; color: #4b5160; margin-bottom: 6px; }
+.field label .req { color: #e53935; margin-left: 2px; font-weight: 600; }
+.field input {
+  width: 100%; height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  background: #fbfcfe;
+}
+.field input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(32, 128, 240, 0.12);
+  background: #fff;
+}
+.field.password-field .input-box { position: relative; }
+.field.password-field input { padding-right: 44px; }
+.field.password-field .toggle-eye {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #98a2b3;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: color .15s, background .15s;
+}
+.field.password-field .toggle-eye:hover { color: var(--blue); background: rgba(32, 128, 240, 0.08); }
+.field.password-field .toggle-eye svg { width: 18px; height: 18px; display: block; }
+.btn-primary {
+  width: 100%; height: 44px;
+  border: none; border-radius: 9px;
+  background: var(--blue);
+  color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+  margin-top: 6px;
+}
+.btn-primary:hover { background: var(--blue-dark); }
+.btn-primary:disabled { opacity: .6; cursor: default; }
+.auth-switch { text-align: center; margin-top: 18px; font-size: 13px; color: var(--muted); }
+.auth-switch a { color: var(--blue); font-weight: 600; }
+.auth-error {
+  background: #fff1f0; border: 1px solid #ffccc7;
+  color: #cf1322; border-radius: 8px;
+  font-size: 13px; padding: 9px 12px; margin-bottom: 14px;
+}
+.auth-ok {
+  background: #f0fff4; border: 1px solid #b7eb8f;
+  color: #237804; border-radius: 8px;
+  font-size: 13px; padding: 9px 12px; margin-bottom: 14px;
+}
+
+/* ============ 门户主框架(对齐现有平台仪表盘) ============ */
+.welcome-banner {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 60%, #0ea5e9 100%);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+.welcome-banner::after {
+  content: "";
+  position: absolute;
+  right: -80px; top: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+  pointer-events: none;
+}
+.welcome-banner .wb-left { z-index: 1; }
+.welcome-banner .wb-greeting { font-size: 13px; opacity: 0.85; margin-bottom: 6px; }
+.welcome-banner .wb-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.welcome-banner .wb-sub { font-size: 13px; opacity: 0.8; }
+.welcome-banner .wb-stats { display: flex; gap: 12px; z-index: 1; }
+.welcome-banner .wb-stat {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 12px 18px;
+  min-width: 110px;
+  text-align: center;
+}
+.welcome-banner .wb-stat .lab { font-size: 12px; opacity: 0.85; margin-bottom: 4px; }
+.welcome-banner .wb-stat .val { font-size: 22px; font-weight: 700; }
+.welcome-banner .wb-stat .val.blue { color: #cfe5ff; }
+.welcome-banner .wb-stat .val.green { color: #c2f0d8; }
+
+.topbar {
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar .brand { display: flex; align-items: center; gap: 10px; }
+.topbar .brand .dot {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--blue);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.topbar .brand .dot svg { width: 19px; height: 19px; display: block; }
+.topbar .brand .name { font-size: 16px; font-weight: 700; }
+.topbar .brand .tag { font-size: 12px; color: var(--muted); margin-left: 4px; }
+
+.user-menu { position: relative; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.user-menu .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 14px;
+}
+.user-menu .uname { font-size: 14px; }
+.user-menu .caret { font-size: 11px; color: var(--muted); }
+.dropdown {
+  position: absolute; right: 0; top: 44px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 10px; box-shadow: var(--shadow);
+  min-width: 160px; padding: 6px; z-index: 20;
+}
+.dropdown button {
+  display: block; width: 100%; text-align: left;
+  border: none; background: none; padding: 10px 12px;
+  border-radius: 7px; font-size: 14px; color: var(--text); cursor: pointer;
+}
+.dropdown button:hover { background: #f2f6ff; color: var(--blue); }
+
+.page { max-width: 1120px; margin: 0 auto; padding: 28px; }
+
+/* 招呼区: 大字招呼 + 副标识 */
+.page-head {
+  margin-bottom: 44px;
+  padding: 4px 2px;
+}
+.page-head .greet {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1d2129;
+  letter-spacing: 0.3px;
+  line-height: 1.25;
+}
+.page-head .greet strong { color: var(--blue); font-weight: 700; }
+.page-head .greet-sub { margin-top: 12px; color: var(--muted); font-size: 14px; }
+
+/* 平台卡片 — 干净主流卡片样式, 弱化粗边, 强阴影 */
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.platform-card {
+  position: relative;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(20, 30, 60, 0.06), 0 4px 20px rgba(20, 30, 60, 0.05);
+  padding: 30px 32px 24px;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s ease, box-shadow .2s ease;
+  overflow: hidden;
+}
+/* 顶部装饰条替代粗 border-left */
+.platform-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue), #4f9bff);
+}
+.platform-card.multicolor::before {
+  background: linear-gradient(90deg, var(--green), #36cfc9);
+}
+.platform-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(20, 30, 60, 0.12), 0 4px 12px rgba(32, 128, 240, 0.08);
+}
+
+/* 头部: 图标 + 平台名 */
+.platform-card .pc-head {
+  display: flex; align-items: center; gap: 18px; margin-bottom: 20px;
+}
+.platform-card .pc-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 24px; font-weight: 700;
+  background: linear-gradient(135deg, var(--blue), #4f9bff);
+  box-shadow: 0 6px 16px rgba(32, 128, 240, 0.25);
+}
+.platform-card.multicolor .pc-icon {
+  background: linear-gradient(135deg, var(--green), #36cfc9);
+  box-shadow: 0 6px 16px rgba(24, 160, 88, 0.25);
+}
+.platform-card .pc-name { font-size: 20px; font-weight: 700; color: #1d2129; letter-spacing: 0.3px; }
+
+/* 胶囊标签区 */
+.platform-card .pc-tags {
+  margin: 4px 0 28px;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.platform-card .pc-nav-item {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #eaf2ff;
+  transition: background .15s, color .15s;
+}
+.platform-card .pc-nav-item:hover { background: #d6e6ff; }
+.platform-card.multicolor .pc-nav-item { color: var(--green); background: #e6f7ee; }
+.platform-card.multicolor .pc-nav-item:hover { background: #d1eddb; }
+
+/* 底部: 进入平台链接行 */
+.platform-card .pc-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 14px; font-weight: 600;
+  color: var(--blue);
+}
+.platform-card.multicolor .pc-foot { color: var(--green); }
+.platform-card .pc-arrow {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: rgba(32, 128, 240, 0.1);
+  font-size: 16px; line-height: 1;
+  transition: transform .2s ease, background .2s ease;
+}
+.platform-card.multicolor .pc-arrow { background: rgba(24, 160, 88, 0.1); }
+.platform-card:hover .pc-arrow { transform: translateX(4px); background: var(--blue); color: #fff; }
+.platform-card.multicolor:hover .pc-arrow { background: var(--green); }
+
+/* ============ 用户管理(Admin) ============ */
+.panel {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 22px;
+}
+.panel h3 { margin: 0 0 16px; font-size: 16px; }
+.toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
+.btn {
+  height: 36px; padding: 0 16px; border-radius: 8px;
+  border: 1px solid var(--border); background: #fff;
+  font-size: 13px; cursor: pointer; color: var(--text);
+}
+.btn:hover { background: #f6f9ff; }
+.btn.blue { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn.blue:hover { background: var(--blue-dark); }
+.btn.danger { color: #cf1322; border-color: #ffccc7; }
+.btn.danger:hover { background: #fff1f0; }
+.btn.green { background: var(--green); color: #fff; border-color: var(--green); }
+
+table.grid { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.grid th, table.grid td {
+  text-align: left; padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+table.grid th { color: var(--muted); font-weight: 600; font-size: 13px; background: #fafbfe; }
+table.grid tr:hover td { background: #fafcff; }
+.role-pill {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.role-pill.Admin { background: #e6f4ff; color: var(--blue); }
+.role-pill.Users { background: #f0fff4; color: var(--green); }
+.badge-off { color: #cf1322; font-size: 12px; }
+
+.modal-mask {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+}
+.modal {
+  background: #fff; border-radius: 14px; padding: 26px 28px;
+  width: 380px; max-width: 92vw; box-shadow: 0 20px 60px rgba(10,25,60,.3);
+}
+.modal h3 { margin: 0 0 18px; }
+.modal .field input, .modal .field select {
+  width: 100%; height: 40px; padding: 0 12px;
+  border: 1px solid var(--border); border-radius: 8px; font-size: 14px;
+}
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+
+.loading { text-align: center; color: var(--muted); padding: 80px 0; }
+
+@media (max-width: 760px) {
+  .cards { grid-template-columns: 1fr; }
+  .page { padding: 18px; }
+}
+
+/* ---------- 演示直登卡片 ---------- */
+.demo-box { margin-top: 28px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 22px; }
+.demo-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.demo-ic { font-size: 22px; }
+.demo-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.demo-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.demo-row { display: flex; gap: 10px; }
+.demo-input { flex: 1; height: 38px; padding: 0 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 12px; color: var(--text); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.demo-input:focus { outline: none; border-color: var(--blue); }
+.demo-copy, .demo-gen { height: 38px; padding: 0 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+.demo-copy { background: rgba(32,128,240,.08); color: var(--blue); }
+.demo-copy:hover { background: rgba(32,128,240,.15); }
+.demo-gen { background: var(--blue); color: #fff; }
+.demo-gen:hover { background: var(--blue-dark); }
+.demo-gen:disabled { opacity: .6; cursor: wait; }

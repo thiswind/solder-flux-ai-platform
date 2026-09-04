@@ -1,0 +1,21 @@
+# ---- 模型权重与训练数据（体积/合规原因不入库）----
+*.pt
+*.onnx
+*.pkl
+*.xlsx
+!模版/*.xlsx
+processed_data/
+
+# ---- 运行时产物 ----
+__pycache__/
+*.pyc
+.env
+*.db
+uploads/
+outputs/
+dist/
+node_modules/
+.DS_Store
+
+# ---- 前端构建产物 ----
+platforms/*/frontend/dist/

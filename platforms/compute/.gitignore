@@ -1,0 +1,71 @@
+# ============================================================
+# 云锡项目 .gitignore（仓库根目录 F:\Yunxi_Project\platform）
+# 覆盖：Python 后端 / Node 前端 / 本地数据库 / 数据目录 / 模型大文件 / 密钥
+# ============================================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ---------- 密钥 / 环境变量（绝不入库）----------
+.env
+.env.*
+!.env.example
+!.env.example.*
+
+# ---------- Node / 前端 ----------
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+
+# ---------- 本地数据库（可自动建表，勿入库）----------
+*.db
+*.sqlite
+*.sqlite3
+
+# ---------- 数据与运行时产物（大、可重新生成）----------
+uploads/
+output/
+outputs/
+output_data/
+image/
+platform_outputs/
+temp/
+temp_data/
+temp_uploads/
+processed_data/uploads/
+processed_data/output/
+processed_data/image/
+processed_data/output_data/
+processed_data/outputs/
+processed_data/platform_outputs/
+
+# ---------- 机器学习大模型文件（较大，默认忽略）----------
+# solder_model_v4.pkl 约 80MB，v1~v3 也很大，不建议直接入库。
+# 若希望纳入版本管理：用 Git LFS 管理后，删掉下面这行 *.pkl 并改为跟踪对应文件。
+*.pkl
+# weights/ 下的 YOLO 权重约 12MB，默认保留入库；若改用 LFS 取消下一行注释：
+# weights/
+
+# ---------- IDE / 系统文件 ----------
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---------- 日志 ----------
+*.log
+
+# ---------- Office / WPS 临时文件 ----------
+# Word/Excel/WPS 打开文档时生成的锁文件与临时文件
+~$*
+~WRL*.tmp
+~*.tmp
