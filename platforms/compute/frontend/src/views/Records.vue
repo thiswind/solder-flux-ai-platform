@@ -55,11 +55,11 @@
       </template>
       
       <n-data-table
-        :columns="columns"
+        :columns="mobileColumns"
         :data="data"
         :loading="loading"
         :pagination="false"
-        :scroll-x="840"
+        :scroll-x="isMobile ? 320 : 840"
         :row-key="row => row.id"
         size="large"
         class="fixed-height-table"
@@ -209,9 +209,9 @@ const getRecordType = (name) => {
 }
 
 const columns = [
-  { 
-      title: 'ID', 
-      key: 'id', 
+  {
+      title: 'ID',
+      key: 'id',
       width: 80,
       align: 'center',
       render: (row) => h('span', { style: 'font-family: monospace; color: #86909C;' }, `#${row.id}`)
@@ -292,6 +292,17 @@ const columns = [
       }
   }
 ]
+
+const isMobile = computed(() => window.innerWidth <= 768)
+
+const mobileColumns = computed(() => {
+  if (!isMobile.value) return columns
+  // 移动端精简列（ID/操作类型/操作），摘要/时间/名称收进详情弹窗，
+  // 四列总宽 ~330px 在 390px 视口内单屏放下，无需横滑
+  return columns
+      .filter(c => ['id', 'type', 'actions'].includes(c.key))
+      .map(c => c.key === 'type' ? { ...c, width: 150 } : c)
+})
 
 const searchQuery = ref('')
 
@@ -511,12 +522,14 @@ onMounted(() => {
   }
 
   .records-card :deep(.n-card-header__extra) .n-input-group {
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     width: 100%;
   }
 
+  /* 输入框与搜索按钮同行：输入框弹性行收缩，按钮紧凑 */
   .records-card :deep(.n-card-header__extra) .n-input-group > .n-input {
-    width: 100% !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
     min-width: 0 !important;
     max-width: none !important;
   }
@@ -533,6 +546,53 @@ onMounted(() => {
 
   .records-card :deep(.n-card-header__extra) .n-button {
     min-height: 36px;
+  }
+
+  /* 搜索按钮不参与全宽拉伸，与输入框同行或紧凑独立成行 */
+  .records-card :deep(.n-card-header__extra) .n-input-group > .n-button {
+    width: auto !important;
+    flex: 0 0 auto;
+    padding: 0 14px;
+  }
+
+  /* 摘要列 Tag 组：移动端收紧换行，避免把行高撑到双倍 */
+  .records-card :deep(.n-data-table-td) .n-space {
+    row-gap: 4px !important;
+  }
+  .records-card :deep(.n-data-table-td) .n-space .n-tag {
+    max-width: 200px;
+  }
+  .records-card :deep(.n-data-table-td) .n-space .n-tag .n-tag__content {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+  }
+  /* 移动端隐藏横向滚出的次要列：摘要列收进详情弹窗，行高回归单行 */
+  .records-card :deep(.n-data-table-th:nth-child(4)),
+  .records-card :deep(.n-data-table-td:nth-child(4)) {
+    display: none;
+  }
+
+  /* 窄屏收窄列宽 + 弱化固定列遮挡：让中间列（操作类型/名称）可读 */
+  .records-card :deep(.n-data-table-th:nth-child(1)),
+  .records-card :deep(.n-data-table-td:nth-child(1)) {
+    width: 56px !important;
+    min-width: 56px !important;
+  }
+  .records-card :deep(.n-data-table-th:nth-child(2)),
+  .records-card :deep(.n-data-table-td:nth-child(2)) {
+    width: 96px !important;
+    min-width: 96px !important;
+  }
+  .records-card :deep(.n-data-table-td:last-child) .n-button {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+  .records-card :deep(.n-data-table-td--fixed-right),
+  .records-card :deep(.n-data-table-th--fixed-right) {
+    box-shadow: none !important;
   }
 }
 /* 移动端表格横向滑动：touch-action 让手指横滑稳定命中滚动容器 */
