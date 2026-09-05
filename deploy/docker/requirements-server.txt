@@ -4,5 +4,5 @@ bcrypt==4.3.0
 ultralytics==8.3.169
 # torch CPU 版走单独一层（体积大，便于层缓存复用）
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.8.0
+torch==2.12.1+cpu
 --index-url https://pypi.tuna.tsinghua.edu.cn/simple
