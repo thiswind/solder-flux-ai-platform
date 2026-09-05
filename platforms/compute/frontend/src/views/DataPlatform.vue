@@ -889,4 +889,9 @@ onMounted(async () => {
     overflow-x: auto;
   }
 }
+/* 移动端表格横向滑动：touch-action 让手指横滑稳定命中滚动容器 */
+:deep(.n-data-table-wrapper) {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
 </style>
