@@ -380,11 +380,6 @@ table.grid tr:hover td { background: #fafcff; }
 
 .loading { text-align: center; color: var(--muted); padding: 80px 0; }
 
-@media (max-width: 760px) {
-  .cards { grid-template-columns: 1fr; }
-  .page { padding: 18px; }
-}
-
 /* ---------- 演示直登卡片 ---------- */
 .demo-box { margin-top: 28px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 22px; }
 .demo-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -401,12 +396,68 @@ table.grid tr:hover td { background: #fafcff; }
 .demo-gen:hover { background: var(--blue-dark); }
 .demo-gen:disabled { opacity: .6; cursor: wait; }
 
-@media (max-width: 760px) {
-  .topbar { padding: 0 14px; }
-  .user-menu .uname { display: none; }
-  .demo-box { padding: 14px 14px; }
-  .demo-row { flex-wrap: wrap; }
-  .demo-input { flex: 1 1 100%; }
-  .demo-copy, .demo-gen { flex: 1; }
+@media (max-width: 768px) {
+  .auth-page { padding: 16px; }
+  .auth-card { padding: 28px 20px 24px; border-radius: 14px; }
+  .auth-card h1 { font-size: 19px; }
+  .brand-logo .dot { width: 30px; height: 30px; border-radius: 8px; }
+  .brand-logo .dot svg { width: 19px; height: 19px; }
+  .brand-logo .name { font-size: 17px; }
+  .field input { height: 46px; font-size: 16px; }
+  .btn-primary { height: 46px; }
+
+  .topbar { height: 54px; padding: 0 14px; }
+  .topbar .brand .dot { width: 26px; height: 26px; border-radius: 7px; }
+  .topbar .brand .dot svg { width: 16px; height: 16px; }
+  .topbar .brand .name { font-size: 15px; }
+  .topbar .brand .tag { display: none; }
+  .user-menu .uname, .user-menu .caret { display: none; }
+  .user-menu .avatar { width: 32px; height: 32px; font-size: 13px; }
+
+  .page { padding: 16px 14px; }
+  .page-head { margin-bottom: 24px; }
   .page-head .greet { font-size: 24px; }
+  .page-head .greet-sub { font-size: 13px; }
+
+  .welcome-banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 16px;
+    margin-bottom: 16px;
+  }
+  .welcome-banner .wb-title { font-size: 18px; }
+  .welcome-banner .wb-stats { margin-top: 14px; gap: 8px; }
+  .welcome-banner .wb-stat { flex: 1; min-width: 0; padding: 10px 6px; }
+  .welcome-banner .wb-stat .val { font-size: 18px; }
+
+  .cards { grid-template-columns: 1fr; gap: 16px; }
+  .platform-card { padding: 20px 18px 16px; border-radius: 14px; }
+  .platform-card:hover { transform: none; }
+  .platform-card .pc-head { gap: 12px; margin-bottom: 14px; }
+  .platform-card .pc-icon { width: 44px; height: 44px; border-radius: 12px; font-size: 20px; }
+  .platform-card .pc-name { font-size: 17px; }
+  .platform-card .pc-tags { margin: 4px 0 16px; gap: 8px; }
+  .platform-card .pc-nav-item { padding: 7px 14px; font-size: 12px; }
+  .platform-card .pc-foot { font-size: 13px; padding-top: 12px; }
+
+  .panel { padding: 16px 14px; margin-bottom: 16px; overflow-x: auto; }
+  .toolbar { flex-wrap: wrap; gap: 8px; }
+  .btn { height: 40px; padding: 0 14px; }
+  table.grid { font-size: 13px; min-width: 480px; }
+  table.grid th, table.grid td { padding: 10px; white-space: nowrap; }
+
+  .modal { padding: 20px 18px; width: 92vw; }
+  .modal .field input, .modal .field select { height: 44px; font-size: 16px; }
+  .modal-actions { flex-direction: column-reverse; gap: 8px; }
+  .modal-actions .btn { width: 100%; height: 44px; }
+
+  .demo-box { margin-top: 16px; padding: 16px 14px; }
+  .demo-row { flex-direction: column; gap: 8px; }
+  .demo-input { width: 100%; height: 44px; font-size: 13px; }
+  .demo-copy, .demo-gen { width: 100%; height: 44px; }
+}
+
+@media (max-width: 380px) {
+  .page-head .greet { font-size: 21px; }
+  .welcome-banner .wb-stat .val { font-size: 16px; }
 }

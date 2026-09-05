@@ -122,6 +122,7 @@
         :data="uploadList"
         :loading="loadingUploads"
         :pagination="pagination"
+        :scroll-x="900"
         :row-key="row => row.id"
         class="uploads-table"
       />
@@ -155,7 +156,7 @@
     </n-modal>
 
     <!-- 5. Edit Modal -->
-    <n-modal v-model:show="showEditModal" preset="card" title="编辑数据" style="width: 600px">
+    <n-modal v-model:show="showEditModal" preset="card" title="编辑数据" style="width: 90%; max-width: 600px;">
       <n-form
         ref="editFormRef"
         :model="editFormModel"
@@ -191,7 +192,7 @@
     </n-modal>
 
     <!-- 6. Upload Modal -->
-    <n-modal v-model:show="showUploadModal" preset="card" title="上传数据文件" style="width: 600px">
+    <n-modal v-model:show="showUploadModal" preset="card" title="上传数据文件" style="width: 90%; max-width: 600px;">
       <n-space vertical size="large">
         <div class="upload-template-box">
           <div>
@@ -851,28 +852,41 @@ onMounted(async () => {
     line-height: 1.6;
 }
 
+/* 移动端适配 */
 @media (max-width: 768px) {
   .intro-content {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 16px;
   }
 
   .intro-right {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
     margin-right: 0;
   }
 
   .hero-stat-card {
     min-width: 0;
-    flex: 1 1 40%;
   }
 
-  .page-title {
-    font-size: 19px;
+  .hero-stat-card strong {
+    font-size: 20px;
   }
 
-  .title-group {
-    gap: 10px;
+  .charts-grid {
+    max-width: 100%;
+  }
+
+  .upload-template-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .uploads-table {
+    overflow-x: auto;
   }
 }
 </style>

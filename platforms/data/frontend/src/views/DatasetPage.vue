@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { NButton, NCard, NDataTable, NEmpty, NIcon, NInput, NSpin, useMessage } from 'naive-ui'
 import { SearchOutline } from '@vicons/ionicons5'
 
@@ -10,11 +10,22 @@ const searchKeyword = ref('')
 const traceRows = ref<any[]>([])
 const message = useMessage()
 
+const isMobile = ref(typeof window !== 'undefined' && window.innerWidth <= 768)
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
 const resultColumns = [
   { title: '批号', key: '批号', width: 180 },
-  { title: '检测数据来源', key: 'overall数据源', ellipsis: true },
-  { title: '配方数据来源', key: 'specific数据源', ellipsis: true },
-  { title: '图片来源', key: '图片关联', ellipsis: true },
+  { title: '检测数据来源', key: 'overall数据源', width: 220 },
+  { title: '配方数据来源', key: 'specific数据源', width: 220 },
+  { title: '图片来源', key: '图片关联', width: 220 },
+]
+
+const mobileColumns = [
+  { title: '批号', key: '批号', width: 90 },
+  { title: '检测来源', key: 'overall数据源', width: 200 },
+  { title: '配方来源', key: 'specific数据源', width: 200 },
 ]
 
 async function loadTraceRows() {
@@ -30,7 +41,14 @@ async function loadTraceRows() {
   }
 }
 
-onMounted(loadTraceRows)
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+  loadTraceRows()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <template>
@@ -64,9 +82,10 @@ onMounted(loadTraceRows)
 
       <n-spin :show="loading">
         <n-data-table
-          :columns="resultColumns"
+          :columns="isMobile ? mobileColumns : resultColumns"
           :data="traceRows"
-          :pagination="{ pageSize: 10 }"
+          :scroll-x="isMobile ? 490 : 400"
+          :pagination="isMobile ? false : { pageSize: 10 }"
           :bordered="false"
           size="small"
         />
@@ -114,21 +133,59 @@ onMounted(loadTraceRows)
 .search-bar {
   display: flex;
   gap: 12px;
-  width: 420px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 420px;
 }
 
 .table-empty {
   padding: 28px 0 8px;
 }
 
+/* 移动端适配 */
 @media (max-width: 768px) {
-  .search-bar {
-    width: 100%;
+  .header-section {
+    margin-bottom: 16px;
   }
 
-  .n-card-header__extra {
-    max-width: 100%;
+  .title-block h1 {
+    font-size: 22px;
+  }
+
+  .title-block p {
+    font-size: 13px;
+  }
+
+  .search-card :deep(.n-card-header) {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 12px 14px !important;
+    row-gap: 12px;
+  }
+
+  .search-card :deep(.n-card-header__main) {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .search-card :deep(.n-card-header__extra) {
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .search-card :deep(.n-card-header__extra) .search-bar {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .search-card :deep(.n-card-header__extra) .n-input {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .search-card :deep(.n-card-header__extra) .n-button {
+    width: 100% !important;
+    min-height: 36px;
   }
 }
 </style>

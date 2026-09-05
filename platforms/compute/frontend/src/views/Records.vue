@@ -34,10 +34,10 @@
           </n-button-group>
 
           <n-input-group>
-            <n-input 
-                v-model:value="searchQuery" 
-                placeholder="搜索实验 ID / 名称..." 
-                :style="{ width: '240px' }"
+            <n-input
+                v-model:value="searchQuery"
+                placeholder="搜索实验 ID / 名称..."
+                :style="{ width: '100%', maxWidth: '240px' }"
                 @keyup.enter="handleSearch"
             >
               <template #prefix>
@@ -59,6 +59,7 @@
         :data="data"
         :loading="loading"
         :pagination="false"
+        :scroll-x="840"
         :row-key="row => row.id"
         size="large"
         class="fixed-height-table"
@@ -82,7 +83,7 @@
     <n-modal 
       v-model:show="showModal" 
       preset="card"
-      style="width: 700px;"
+      style="width: 90%; max-width: 700px;"
       :title="currentRecord?.experiment_name || '记录详情'"
     >
       <template #header>
@@ -228,7 +229,6 @@ const columns = [
   { 
       title: '操作名称', 
       key: 'experiment_name', 
-      ellipsis: { tooltip: true },
       align: 'center',
       render: (row) => h('span', { style: 'font-weight: 500;' }, row.experiment_name)
   },
@@ -469,5 +469,70 @@ onMounted(() => {
 /* Ensure empty body fills the space */
 :deep(.n-data-table-base-table-body) {
     min-height: 550px; 
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .fixed-height-table {
+    min-height: auto;
+  }
+
+  :deep(.n-data-table-base-table-body) {
+    min-height: auto;
+  }
+
+  .records-card :deep(.n-card-header) {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 12px 14px !important;
+    row-gap: 12px;
+  }
+
+  .records-card :deep(.n-card-header__main) {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .records-card :deep(.n-card-header__extra) {
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .records-card :deep(.n-card-header__extra) > .n-space,
+  .records-card :deep(.n-card-header__extra) .n-space {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    gap: 8px !important;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-space > * {
+    margin-bottom: 0 !important;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-input-group {
+    flex-wrap: wrap !important;
+    width: 100%;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-input-group > .n-input {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-button,
+  .records-card :deep(.n-card-header__extra) .n-button-group {
+    width: 100% !important;
+    justify-content: stretch;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-button-group > .n-button {
+    flex: 1;
+  }
+
+  .records-card :deep(.n-card-header__extra) .n-button {
+    min-height: 36px;
+  }
 }
 </style>

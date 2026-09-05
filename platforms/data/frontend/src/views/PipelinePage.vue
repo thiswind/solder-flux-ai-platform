@@ -408,7 +408,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <n-grid cols="1 720:3" :x-gap="20" :y-gap="20">
+    <n-grid cols="1 s:2 m:3" :x-gap="20" :y-gap="20" responsive="screen" item-responsive>
       <n-grid-item v-for="card in uploadCards" :key="card.key">
         <n-card :bordered="false" class="upload-card">
           <template #header>
@@ -465,8 +465,8 @@ onBeforeUnmount(() => {
       </n-grid-item>
     </n-grid>
 
-    <n-grid cols="1 900:12" :x-gap="20" :y-gap="20" class="section-grid">
-      <n-grid-item span="1 900:8">
+    <n-grid cols="1 m:12" :x-gap="20" :y-gap="20" class="section-grid" responsive="screen" item-responsive>
+      <n-grid-item span="1 m:8">
         <n-card title="处理配置" :bordered="false" class="panel-card">
           <template #header-extra>
             <n-icon :component="SettingsOutline" size="18" />
@@ -551,7 +551,7 @@ onBeforeUnmount(() => {
         </n-card>
       </n-grid-item>
 
-      <n-grid-item span="1 900:4">
+      <n-grid-item span="1 m:4">
         <n-card title="上传注意事项" :bordered="false" class="panel-card notice-card">
           <template #header-extra>
             <n-icon :component="InformationCircleOutline" size="18" />
@@ -606,7 +606,7 @@ onBeforeUnmount(() => {
       </div>
     </n-modal>
 
-    <n-modal v-model:show="showResultModal" preset="card" style="width: 860px" title="处理完成" :mask-closable="true" @update:show="onResultModalShow">
+    <n-modal v-model:show="showResultModal" preset="card" style="width: 90%; max-width: 860px" title="处理完成" :mask-closable="true" @update:show="onResultModalShow">
       <n-result
         status="success"
         title="自动化处理已完成"
@@ -643,6 +643,7 @@ onBeforeUnmount(() => {
           v-if="reviewIssues.length"
           :columns="reviewColumns"
           :data="reviewIssues"
+          :scroll-x="420"
           :pagination="{ pageSize: 5 }"
           size="small"
         />
@@ -936,7 +937,8 @@ onBeforeUnmount(() => {
 }
 
 .confirm-modal {
-  width: 640px;
+  width: 90%;
+  max-width: 640px;
   margin: 10vh auto 0;
   padding: 28px;
   border-radius: 24px;
@@ -999,7 +1001,8 @@ onBeforeUnmount(() => {
 }
 
 .feedback-modal {
-  width: 520px;
+  width: 90%;
+  max-width: 520px;
   margin: 18vh auto 0;
   padding: 20px 16px 8px;
   border-radius: 24px;
@@ -1044,25 +1047,23 @@ onBeforeUnmount(() => {
   color: #86909c;
 }
 
+/* 移动端适配 */
 @media (max-width: 768px) {
-  .header-help {
-    min-width: 0;
-    max-width: none;
-    width: 100%;
-  }
-
-  .title-block h1 {
-    white-space: nowrap;
-  }
-
-  .title-row {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
   .header-section {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .result-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .confirm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .confirm-actions .n-button {
+    width: 100%;
   }
 }
 </style>

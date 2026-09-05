@@ -28,8 +28,8 @@
               </n-dropdown>
             </n-layout-header>
             
-            <n-layout has-sider position="absolute" class="main-layout" style="top: 72px; bottom: 0">
-              <n-layout-content content-style="padding: 12px; background-color: #f5f7fa; overflow: auto;">
+            <n-layout has-sider position="absolute" :style="layoutStyle">
+              <n-layout-content :content-style="contentStyle">
                 <router-view v-slot="{ Component }">
                   <transition name="fade" mode="out-in">
                     <component :is="Component" />
@@ -37,6 +37,20 @@
                 </router-view>
               </n-layout-content>
             </n-layout>
+            <nav class="mobile-tabbar">
+              <RouterLink to="/" class="tab-item" :class="{ active: activeKey === 'data-platform' }">
+                <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                <span>数据平台</span>
+              </RouterLink>
+              <RouterLink to="/reasoning" class="tab-item" :class="{ active: activeKey === 'reasoning' }">
+                <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7c0-3.9-3.1-7-7-7z"/></svg>
+                <span>智能推理</span>
+              </RouterLink>
+              <RouterLink to="/records" class="tab-item" :class="{ active: activeKey === 'records' }">
+                <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89l.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7s-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54l.72-1.21l-3.5-2.08V8H12z"/></svg>
+                <span>操作记录</span>
+              </RouterLink>
+            </nav>
           </n-layout>
         </div>
       </n-loading-bar-provider>
@@ -46,7 +60,7 @@
 </template>
 
 <script setup>
-import { h, ref, watch, computed } from 'vue'
+import { h, ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { NIcon, NAvatar, NDropdown, NButton, createDiscreteApi } from 'naive-ui'
 import logoImg from './assets/logo.png'
@@ -59,12 +73,37 @@ const router = useRouter()
 const route = useRoute()
 const activeKey = ref(null)
 
+const isMobile = ref(false)
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
 watch(route, (newRoute) => {
   // Sync menu selection with current route
   if (newRoute.path === '/') activeKey.value = 'data-platform'
   else if (newRoute.path === '/reasoning') activeKey.value = 'reasoning'
   else if (newRoute.path === '/records') activeKey.value = 'records'
 }, { immediate: true })
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const contentStyle = computed(() => ({
+  padding: isMobile.value ? '12px 12px 76px' : '12px',
+  backgroundColor: '#f5f7fa',
+  overflow: 'auto'
+}))
+
+const layoutStyle = computed(() => ({
+  top: isMobile.value ? '56px' : '72px',
+  bottom: 0
+}))
 
 // Professional Theme (Enterprise Blue)
 const themeOverrides = {
@@ -194,6 +233,7 @@ function downloadManual() {
 .app-container {
   height: 100vh;
   width: 100vw;
+  position: relative;
 }
 
 body {
@@ -283,18 +323,19 @@ body {
   color: #86909c;
 }
 
+.mobile-tabbar {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .nav-header {
-    height: auto;
-    min-height: 56px;
-    flex-wrap: wrap;
-    padding: 8px 12px;
-    gap: 6px;
+    height: 56px;
+    padding: 0 16px;
   }
 
   .logo {
-    min-width: 0;
     gap: 8px;
+    min-width: auto;
   }
 
   .logo-icon {
@@ -302,66 +343,55 @@ body {
   }
 
   .logo-text {
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0;
   }
 
-  .nav-menu {
-    order: 3;
-    width: 100%;
-    flex: none;
-    margin-right: 0;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    overflow: visible !important;
-    row-gap: 0;
-  }
-
-  .main-layout {
-    top: 128px !important;
-  }
-
-
-  .nav-menu :deep(.n-menu-item) {
-    padding: 0 4px;
-    margin-top: 0;
-  }
-
-  .nav-menu :deep(.n-menu-item-content) {
-    padding: 0 6px !important;
-    font-size: 13px;
-  }
-
-  .nav-menu :deep(.n-menu-item-content-header) {
-    overflow: visible !important;
-    white-space: nowrap !important;
-    text-overflow: clip !important;
-    max-width: none !important;
-  }
-
-  .nav-menu :deep(.n-menu-item-content-header a),
-  .nav-menu :deep(.n-menu-item-content-header *) {
-    overflow: visible !important;
-    text-overflow: clip !important;
-    max-width: none !important;
-    white-space: nowrap !important;
-  }
-
-  .manual-btn {
-    margin-right: 8px;
-    padding: 0 8px;
-  }
-
-  .user-display-name {
-    display: none;
-  }
-
-  .dropdown-arrow {
+  .nav-header .nav-menu,
+  .nav-header .manual-btn,
+  .nav-header .user-display-name,
+  .nav-header .dropdown-arrow {
     display: none;
   }
 
   .user-avatar-trigger {
-    padding: 4px 6px;
+    padding: 4px;
+  }
+
+  .mobile-tabbar {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background: #fff;
+    border-top: 1px solid #e5e6eb;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-tabbar .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 56px;
+    font-size: 11px;
+    color: #86909c;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-tabbar .tab-item.active {
+    color: #165dff;
+  }
+
+  .mobile-tabbar .tab-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
   }
 }
 </style>

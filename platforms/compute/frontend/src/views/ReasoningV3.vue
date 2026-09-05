@@ -499,7 +499,7 @@
                 <div class="section-body">
                   <div class="chart-card">
                     <div class="detail-header">{{ text.performanceMetrics }}</div>
-                    <n-grid :x-gap="10" :y-gap="10" cols="2" class="tight-grid">
+                    <n-grid :x-gap="10" :y-gap="10" cols="1 480:2" class="tight-grid">
                       <n-grid-item>
                         <div class="chart-tile">
                           <div class="tile-title">{{ text.viscosity }}</div>
@@ -516,7 +516,7 @@
                   </div>
                   <div class="chart-card chart-card-gap">
                     <div class="detail-header">{{ text.categoryTop3 }}</div>
-                    <n-grid :x-gap="10" :y-gap="10" cols="2" class="tight-grid">
+                    <n-grid :x-gap="10" :y-gap="10" cols="1 480:2" class="tight-grid">
                       <n-grid-item>
                         <div class="chart-tile">
                           <div class="tile-title">{{ text.powderSpec }}</div>
@@ -752,7 +752,7 @@ const text = {
   resultViz: zh([32467, 26524, 21487, 35270, 21270]),
   performanceMetrics: zh([24615, 33021, 25351, 26631]),
   categoryTop3: zh([31867, 21035, 39044, 27979]) + " Top3 " + zh([27010, 29575]),
-  emptyResult: zh([35831, 37197, 32622, 21442, 25968, 24182, 24320, 22987, 25512, 29702]),
+  emptyResult: zh([35831, 22312, 24038, 20391, 37197, 32622, 21442, 25968, 24182, 24320, 22987, 25512, 29702]),
   baseline: zh([22522, 20934, 20540]),
   mostSensitive: zh([26368, 25935, 24863, 21442, 25968]),
   comboDimension: zh([32452, 21512, 32500, 24230]),
@@ -2456,13 +2456,6 @@ onUnmounted(() => {
   padding: 6px 8px;
 }
 
-.empty-hint {
-  margin-top: 6px;
-  padding: 6px 8px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
 .ratio-compact-card,
 .inline-tip-card,
 .boundary-card,
@@ -3447,43 +3440,137 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .model-status-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 10px;
   }
 
-  .status-left,
-  .status-right {
+  .status-left {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  .status-label,
-  .status-detail,
-  .status-warning {
-    white-space: nowrap;
+  .status-right {
+    width: 100%;
+    justify-content: flex-end;
   }
 
-  .status-detail {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .panel-header {
+    gap: 8px;
   }
 
-  .sticky-footer {
-    background: #fff;
+  .panel-title {
+    font-size: 14px;
+  }
+
+  .scroll-container {
+    padding: 0;
+  }
+
+  .compact-form {
+    padding-bottom: 0;
+  }
+
+  .flux-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .alloy-table {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .particle-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .particle-manual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-footer {
+    position: static;
     padding-top: 10px;
+    background: none;
   }
 
-  .action-footer .n-space {
-    flex-wrap: wrap;
-    gap: 8px !important;
+  .action-footer :deep(.n-space) {
+    width: 100%;
+  }
+
+  .action-footer :deep(.n-space-item) {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .main-btn {
-    min-width: 120px !important;
-    flex: 1 1 120px;
+    width: 100%;
+    height: 44px;
+    min-width: 0 !important;
+  }
+
+  .export-row {
+    justify-content: flex-start;
+  }
+
+  .chart-gauge {
+    height: 150px;
+  }
+
+  .chart-donut {
+    height: 180px;
+  }
+
+  .chart-lg {
+    height: 260px;
+  }
+
+  .accuracy-kpi-grid {
+    flex-wrap: wrap;
+  }
+
+  .accuracy-kpi {
+    min-width: 100%;
+  }
+
+  .accuracy-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-modal {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .impact-modal :deep(.n-card__content) {
+    padding: 12px 12px 20px !important;
+  }
+
+  .impact-modal :deep(.n-card-header) {
+    padding: 12px 12px 10px !important;
+  }
+
+  .impact-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .best-tuning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .combo-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .surface-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .surface-chart-card:last-child {
+    grid-column: auto;
   }
 }
 </style>
