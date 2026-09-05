@@ -301,7 +301,7 @@ onMounted(() => {
     </div>
 
     <n-spin :show="loading">
-      <n-grid :cols="4" :x-gap="20" :y-gap="20">
+      <n-grid cols="1 480:2 900:4" :x-gap="20" :y-gap="20">
         <n-grid-item v-for="item in metricCards" :key="item.label">
           <n-card :bordered="false" class="stat-card">
             <div class="stat-head">
@@ -316,8 +316,8 @@ onMounted(() => {
         </n-grid-item>
       </n-grid>
 
-      <n-grid :cols="12" :x-gap="20" :y-gap="20" class="section-grid">
-        <n-grid-item :span="7">
+      <n-grid cols="1 900:12" :x-gap="20" :y-gap="20" class="section-grid">
+        <n-grid-item span="1 900:7">
           <n-card :bordered="false" class="panel-card chart-card">
             <template #header>
               <div class="panel-header">
@@ -369,7 +369,7 @@ onMounted(() => {
           </n-card>
         </n-grid-item>
 
-        <n-grid-item :span="5">
+        <n-grid-item span="1 900:5">
           <n-card :bordered="false" class="panel-card chart-card">
             <template #header>
               <div class="panel-header">
@@ -939,5 +939,19 @@ onMounted(() => {
 /* 卡片右上角搜索框与标题的垂直对齐微调 */
 .data-card :deep(.n-card-header__extra) {
   padding-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .panel-header {
+    flex-direction: column;
+  }
+
+  .panel-header-stats {
+    max-width: none;
+  }
 }
 </style>

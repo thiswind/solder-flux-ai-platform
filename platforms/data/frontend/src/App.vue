@@ -28,7 +28,7 @@
                 </n-dropdown>
               </n-layout-header>
               
-              <n-layout has-sider position="absolute" style="top: 72px; bottom: 0">
+              <n-layout has-sider position="absolute" class="main-layout" style="top: 72px; bottom: 0">
                 <n-layout-content content-style="padding: 24px; background-color: #f5f7fa; overflow: auto;">
                   <router-view v-slot="{ Component }">
                     <transition name="fade" mode="out-in">
@@ -299,5 +299,87 @@ function downloadManual() {
 body {
   margin: 0;
   background-color: #f5f7fa;
+}
+
+@media (max-width: 768px) {
+  .nav-header {
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 6px;
+  }
+
+  .logo {
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+
+  .nav-menu {
+    order: 3;
+    width: 100%;
+    flex: none;
+    margin-right: 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: visible !important;
+    row-gap: 0;
+  }
+
+  .main-layout {
+    top: 172px !important;
+  }
+
+
+  .nav-menu .n-menu-item {
+    padding: 0 4px;
+    margin-top: 0;
+  }
+
+  .nav-menu .n-menu-item-content {
+    padding: 0 6px !important;
+    font-size: 13px;
+  }
+
+  .nav-menu .n-menu-item-content-header {
+    overflow: visible !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+  }
+
+  .nav-menu :deep(.n-menu-item-content-header a),
+  .nav-menu :deep(.n-menu-item-content-header *) {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+  }
+
+  .manual-btn {
+    margin-right: 8px;
+    padding: 0 8px;
+  }
+
+  .user-display-name {
+    display: none;
+  }
+
+  .dropdown-arrow {
+    display: none;
+  }
+
+  .user-avatar-trigger {
+    padding: 4px 6px;
+  }
 }
 </style>

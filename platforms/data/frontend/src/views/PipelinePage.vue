@@ -408,7 +408,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <n-grid :cols="3" :x-gap="20" :y-gap="20">
+    <n-grid cols="1 720:3" :x-gap="20" :y-gap="20">
       <n-grid-item v-for="card in uploadCards" :key="card.key">
         <n-card :bordered="false" class="upload-card">
           <template #header>
@@ -465,8 +465,8 @@ onBeforeUnmount(() => {
       </n-grid-item>
     </n-grid>
 
-    <n-grid :cols="12" :x-gap="20" :y-gap="20" class="section-grid">
-      <n-grid-item :span="8">
+    <n-grid cols="1 900:12" :x-gap="20" :y-gap="20" class="section-grid">
+      <n-grid-item span="1 900:8">
         <n-card title="处理配置" :bordered="false" class="panel-card">
           <template #header-extra>
             <n-icon :component="SettingsOutline" size="18" />
@@ -551,7 +551,7 @@ onBeforeUnmount(() => {
         </n-card>
       </n-grid-item>
 
-      <n-grid-item :span="4">
+      <n-grid-item span="1 900:4">
         <n-card title="上传注意事项" :bordered="false" class="panel-card notice-card">
           <template #header-extra>
             <n-icon :component="InformationCircleOutline" size="18" />
@@ -1042,5 +1042,27 @@ onBeforeUnmount(() => {
   margin-bottom: 12px;
   font-size: 13px;
   color: #86909c;
+}
+
+@media (max-width: 768px) {
+  .header-help {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .title-block h1 {
+    white-space: nowrap;
+  }
+
+  .title-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 </style>

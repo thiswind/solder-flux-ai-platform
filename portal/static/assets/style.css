@@ -400,3 +400,13 @@ table.grid tr:hover td { background: #fafcff; }
 .demo-gen { background: var(--blue); color: #fff; }
 .demo-gen:hover { background: var(--blue-dark); }
 .demo-gen:disabled { opacity: .6; cursor: wait; }
+
+@media (max-width: 760px) {
+  .topbar { padding: 0 14px; }
+  .user-menu .uname { display: none; }
+  .demo-box { padding: 14px 14px; }
+  .demo-row { flex-wrap: wrap; }
+  .demo-input { flex: 1 1 100%; }
+  .demo-copy, .demo-gen { flex: 1; }
+  .page-head .greet { font-size: 24px; }
+}

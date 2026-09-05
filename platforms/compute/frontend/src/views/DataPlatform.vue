@@ -850,4 +850,29 @@ onMounted(async () => {
     color: #86909C;
     line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+  .intro-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .intro-right {
+    margin-right: 0;
+  }
+
+  .hero-stat-card {
+    min-width: 0;
+    flex: 1 1 40%;
+  }
+
+  .page-title {
+    font-size: 19px;
+  }
+
+  .title-group {
+    gap: 10px;
+  }
+}
 </style>

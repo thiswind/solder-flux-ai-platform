@@ -115,9 +115,20 @@ onMounted(loadTraceRows)
   display: flex;
   gap: 12px;
   width: 420px;
+  max-width: 100%;
 }
 
 .table-empty {
   padding: 28px 0 8px;
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    width: 100%;
+  }
+
+  .n-card-header__extra {
+    max-width: 100%;
+  }
 }
 </style>

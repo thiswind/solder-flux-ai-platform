@@ -752,7 +752,7 @@ const text = {
   resultViz: zh([32467, 26524, 21487, 35270, 21270]),
   performanceMetrics: zh([24615, 33021, 25351, 26631]),
   categoryTop3: zh([31867, 21035, 39044, 27979]) + " Top3 " + zh([27010, 29575]),
-  emptyResult: zh([35831, 22312, 24038, 20391, 37197, 32622, 21442, 25968, 24182, 24320, 22987, 25512, 29702]),
+  emptyResult: zh([35831, 37197, 32622, 21442, 25968, 24182, 24320, 22987, 25512, 29702]),
   baseline: zh([22522, 20934, 20540]),
   mostSensitive: zh([26368, 25935, 24863, 21442, 25968]),
   comboDimension: zh([32452, 21512, 32500, 24230]),
@@ -2456,6 +2456,13 @@ onUnmounted(() => {
   padding: 6px 8px;
 }
 
+.empty-hint {
+  margin-top: 6px;
+  padding: 6px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .ratio-compact-card,
 .inline-tip-card,
 .boundary-card,
@@ -3436,5 +3443,47 @@ onUnmounted(() => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .model-status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 12px;
+  }
+
+  .status-left,
+  .status-right {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .status-label,
+  .status-detail,
+  .status-warning {
+    white-space: nowrap;
+  }
+
+  .status-detail {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sticky-footer {
+    background: #fff;
+    padding-top: 10px;
+  }
+
+  .action-footer .n-space {
+    flex-wrap: wrap;
+    gap: 8px !important;
+  }
+
+  .main-btn {
+    min-width: 120px !important;
+    flex: 1 1 120px;
+  }
 }
 </style>

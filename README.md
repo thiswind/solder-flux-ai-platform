@@ -46,6 +46,18 @@
 
 ![Records](docs/screenshots/06-compute-records.png)
 
+### 📱 移动端适配
+
+全站响应式布局，手机浏览器 / 企业微信内打开同样完整可用——顶部导航自动折行收纳、统计卡片重排、表格容器内滑动：
+
+| 门户（iPhone 视口） | 数据平台仪表盘（iPhone 视口） |
+| :---: | :---: |
+| ![Portal Mobile](docs/screenshots/07-portal-mobile.png) | ![Dashboard Mobile](docs/screenshots/08-dashboard-mobile.png) |
+
+| 推理平台（iPhone 视口） | 数据管线（iPhone 视口） |
+| :---: | :---: |
+| ![Compute Mobile](docs/screenshots/09-compute-mobile.png) | ![Pipeline Mobile](docs/screenshots/10-pipeline-mobile.png) |
+
 ## 🏗 系统架构
 
 单镜像多角色（`SVC` 环境变量切换 portal / compute / data 三个服务），Compose 一键编排，nginx 子路径统一上行：
