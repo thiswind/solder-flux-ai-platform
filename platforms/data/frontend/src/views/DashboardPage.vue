@@ -54,13 +54,13 @@ const displayRows = ref<DashboardDisplayRow[]>([])
 const message = useMessage()
 
 const displayColumns = [
-  { title: '产品批号', key: '产品批号', ellipsis: true },
-  { title: '锡膏型号', key: '锡膏型号', ellipsis: true },
+  { title: '产品批号', key: '产品批号', width: 130 },
+  { title: '锡膏型号', key: '锡膏型号', width: 130 },
   { title: '助焊膏', key: '助焊膏', width: 90 },
   { title: '助焊剂比例%', key: '助焊剂比例%', width: 110 },
   { title: '合金含量（%）', key: '合金含量（%）', width: 120 },
-  { title: '合金牌号', key: '合金牌号', ellipsis: true },
-  { title: '锡粉批号', key: '锡粉批号', ellipsis: true },
+  { title: '合金牌号', key: '合金牌号', width: 120 },
+  { title: '锡粉批号', key: '锡粉批号', width: 130 },
   { title: '黏度初值', key: '黏度初值', width: 100 },
   { title: 'Ti', key: 'Ti', width: 80 },
   { title: '润湿等级', key: '润湿等级', width: 100 },
@@ -301,7 +301,7 @@ onMounted(() => {
     </div>
 
     <n-spin :show="loading">
-      <n-grid :cols="4" :x-gap="20" :y-gap="20">
+      <n-grid cols="1 s:2 m:4" :x-gap="20" :y-gap="20" responsive="screen" item-responsive>
         <n-grid-item v-for="item in metricCards" :key="item.label">
           <n-card :bordered="false" class="stat-card">
             <div class="stat-head">
@@ -316,8 +316,8 @@ onMounted(() => {
         </n-grid-item>
       </n-grid>
 
-      <n-grid :cols="12" :x-gap="20" :y-gap="20" class="section-grid">
-        <n-grid-item :span="7">
+      <n-grid cols="1 m:12" :x-gap="20" :y-gap="20" class="section-grid" responsive="screen" item-responsive>
+        <n-grid-item span="1 m:7">
           <n-card :bordered="false" class="panel-card chart-card">
             <template #header>
               <div class="panel-header">
@@ -369,7 +369,7 @@ onMounted(() => {
           </n-card>
         </n-grid-item>
 
-        <n-grid-item :span="5">
+        <n-grid-item span="1 m:5">
           <n-card :bordered="false" class="panel-card chart-card">
             <template #header>
               <div class="panel-header">
@@ -446,7 +446,7 @@ onMounted(() => {
                 placeholder="按产品批号搜索"
                 clearable
                 size="small"
-                style="width: 200px"
+                style="width: 100%; max-width: 200px"
                 @keyup.enter="handleSearch"
                 @clear="handleClearSearch"
               >
@@ -467,6 +467,7 @@ onMounted(() => {
             :columns="displayColumns"
             :data="displayRows"
             :loading="displayLoading"
+            :scroll-x="820"
             :pagination="{ pageSize: 20, pageSizes: [10, 20, 50, 100] }"
             size="small"
             :bordered="false"
@@ -939,5 +940,32 @@ onMounted(() => {
 /* 卡片右上角搜索框与标题的垂直对齐微调 */
 .data-card :deep(.n-card-header__extra) {
   padding-top: 2px;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-section .n-button {
+    width: 100%;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .panel-header-stats {
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .search-bar {
+    flex-wrap: wrap;
+  }
 }
 </style>

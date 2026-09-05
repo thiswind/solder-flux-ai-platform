@@ -28,8 +28,8 @@
                 </n-dropdown>
               </n-layout-header>
               
-              <n-layout has-sider position="absolute" style="top: 72px; bottom: 0">
-                <n-layout-content content-style="padding: 24px; background-color: #f5f7fa; overflow: auto;">
+              <n-layout has-sider position="absolute" :style="layoutStyle">
+                <n-layout-content :content-style="contentStyle">
                   <router-view v-slot="{ Component }">
                     <transition name="fade" mode="out-in">
                       <component :is="Component" />
@@ -37,6 +37,24 @@
                   </router-view>
                 </n-layout-content>
               </n-layout>
+              <nav class="mobile-tabbar">
+                <RouterLink to="/" class="tab-item" :class="{ active: activeKey === 'dashboard' }">
+                  <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                  <span>系统总览</span>
+                </RouterLink>
+                <RouterLink to="/pipeline" class="tab-item" :class="{ active: activeKey === 'pipeline' }">
+                  <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                  <span>上传文件</span>
+                </RouterLink>
+                <RouterLink to="/logs" class="tab-item" :class="{ active: activeKey === 'logs' }">
+                  <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  <span>处理日志</span>
+                </RouterLink>
+                <RouterLink to="/datasets" class="tab-item" :class="{ active: activeKey === 'datasets' }">
+                  <svg class="tab-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                  <span>数据来源</span>
+                </RouterLink>
+              </nav>
             </n-layout>
           </div>
         </n-loading-bar-provider>
@@ -46,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref, watch, computed } from 'vue'
+import { h, ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import {
   NConfigProvider,
@@ -73,12 +91,37 @@ const route = useRoute()
 const router = useRouter()
 const activeKey = ref<string | null>(null)
 
+const isMobile = ref(false)
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
 watch(route, (newRoute) => {
   if (newRoute.path === '/') activeKey.value = 'dashboard'
   else if (newRoute.path.startsWith('/pipeline')) activeKey.value = 'pipeline'
   else if (newRoute.path.startsWith('/logs')) activeKey.value = 'logs'
   else if (newRoute.path.startsWith('/datasets')) activeKey.value = 'datasets'
 }, { immediate: true })
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const contentStyle = computed(() => ({
+  padding: isMobile.value ? '12px 12px 76px' : '24px',
+  backgroundColor: '#f5f7fa',
+  overflow: 'auto'
+}))
+
+const layoutStyle = computed(() => ({
+  top: isMobile.value ? '56px' : '72px',
+  bottom: 0
+}))
 
 const themeOverrides = {
   common: {
@@ -214,6 +257,7 @@ function downloadManual() {
 .app-container {
   height: 100vh;
   width: 100vw;
+  position: relative;
 }
 
 .nav-header {
@@ -299,5 +343,77 @@ function downloadManual() {
 body {
   margin: 0;
   background-color: #f5f7fa;
+}
+
+.mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-header {
+    height: 56px;
+    padding: 0 16px;
+  }
+
+  .logo {
+    gap: 8px;
+    min-width: auto;
+  }
+
+  .logo-icon {
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: 15px;
+    letter-spacing: 0;
+  }
+
+  .nav-header .nav-menu,
+  .nav-header .manual-btn,
+  .nav-header .user-display-name,
+  .nav-header .dropdown-arrow {
+    display: none;
+  }
+
+  .user-avatar-trigger {
+    padding: 4px;
+  }
+
+  .mobile-tabbar {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background: #fff;
+    border-top: 1px solid #e5e6eb;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-tabbar .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 56px;
+    font-size: 11px;
+    color: #86909c;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-tabbar .tab-item.active {
+    color: #165dff;
+  }
+
+  .mobile-tabbar .tab-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
 }
 </style>

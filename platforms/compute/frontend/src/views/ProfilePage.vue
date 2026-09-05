@@ -10,7 +10,7 @@
         ref="formRef"
         :model="formData"
         :rules="formRules"
-        label-placement="left"
+        label-placement="top"
         label-width="auto"
         size="large"
       >
@@ -229,5 +229,16 @@ loadProfile()
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid #E5E6EB;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .profile-actions {
+    flex-direction: column-reverse;
+  }
+
+  .profile-actions .n-button {
+    width: 100%;
+  }
 }
 </style>

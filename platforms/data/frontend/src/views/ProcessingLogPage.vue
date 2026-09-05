@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, ref, computed } from 'vue'
+import { h, onMounted, onUnmounted, ref, computed } from 'vue'
 import { roleState } from '../role'
 import {
   NButton,
@@ -212,7 +212,91 @@ const columns = [
   },
 ]
 
-onMounted(loadRuns)
+const isMobile = ref(typeof window !== 'undefined' && window.innerWidth <= 768)
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+  loadRuns()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const fmtTime = (s: string | null | undefined) => {
+  if (!s) return '-'
+  return s.replace(/\.\d+/, '').replace('T', ' ')
+}
+
+const mobileColumns = computed(() => [
+  {
+    title: '序号',
+    key: 'index',
+    width: 50,
+    render(_: RunSummary, index: number) {
+      return index + 1
+    },
+  },
+  {
+    title: '处理时间',
+    key: 'started_at',
+    render(row: RunSummary) {
+      return h('div', { class: 'time-cell' }, [
+        h('div', null, `开始：${fmtTime(row.started_at)}`),
+        h('div', null, `结束：${fmtTime(row.completed_at)}`),
+      ])
+    },
+  },
+  {
+    title: '结果',
+    key: 'status',
+    width: 80,
+    render(row: RunSummary) {
+      return h(
+        NTag,
+        { type: getStatusTagType(row.status), bordered: false, size: 'small' },
+        { default: () => getStatusLabel(row.status) },
+      )
+    },
+  },
+  {
+    title: '操作',
+    key: 'actions',
+    width: 120,
+    render(row: RunSummary) {
+      const actions = [
+        h(
+          NButton,
+          {
+            size: 'small',
+            quaternary: true,
+            type: 'primary',
+            onClick: () => handleView(row),
+          },
+          { default: () => '查看' },
+        ),
+      ]
+      if (isAdmin.value) {
+        actions.push(
+          h(
+            NButton,
+            {
+              size: 'small',
+              quaternary: true,
+              type: 'error',
+              onClick: () => handleDelete(row),
+            },
+            { default: () => '删除' },
+          ),
+        )
+      }
+      return h('div', { class: 'action-group' }, actions)
+    },
+  },
+])
 </script>
 
 <template>
@@ -231,10 +315,11 @@ onMounted(loadRuns)
 
     <n-card :bordered="false" class="log-card">
       <n-data-table
-        :columns="columns"
+        :columns="isMobile ? mobileColumns : columns"
         :data="runs"
         :loading="loading"
-        :pagination="{ pageSize: 8 }"
+        :scroll-x="isMobile ? undefined : 700"
+        :pagination="isMobile ? false : { pageSize: 8 }"
         :bordered="false"
         size="small"
       />
@@ -243,7 +328,7 @@ onMounted(loadRuns)
       </div>
     </n-card>
 
-    <n-modal v-model:show="showDetail" preset="card" style="width: 760px" title="处理结果详情" :mask-closable="true">
+    <n-modal v-model:show="showDetail" preset="card" style="width: 90%; max-width: 760px" title="处理结果详情" :mask-closable="true">
       <n-descriptions label-placement="left" :column="1" bordered>
         <n-descriptions-item label="任务 ID">#{{ selectedRun?.id }}</n-descriptions-item>
         <n-descriptions-item label="处理状态">
@@ -325,5 +410,21 @@ onMounted(loadRuns)
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-bar {
+    flex-wrap: wrap;
+  }
+
+  .action-bar .n-button {
+    flex: 1 1 auto;
+  }
 }
 </style>

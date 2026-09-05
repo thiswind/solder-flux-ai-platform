@@ -499,7 +499,7 @@
                 <div class="section-body">
                   <div class="chart-card">
                     <div class="detail-header">{{ text.performanceMetrics }}</div>
-                    <n-grid :x-gap="10" :y-gap="10" cols="2" class="tight-grid">
+                    <n-grid :x-gap="10" :y-gap="10" cols="1 480:2" class="tight-grid">
                       <n-grid-item>
                         <div class="chart-tile">
                           <div class="tile-title">{{ text.viscosity }}</div>
@@ -516,7 +516,7 @@
                   </div>
                   <div class="chart-card chart-card-gap">
                     <div class="detail-header">{{ text.categoryTop3 }}</div>
-                    <n-grid :x-gap="10" :y-gap="10" cols="2" class="tight-grid">
+                    <n-grid :x-gap="10" :y-gap="10" cols="1 480:2" class="tight-grid">
                       <n-grid-item>
                         <div class="chart-tile">
                           <div class="tile-title">{{ text.powderSpec }}</div>
@@ -3436,5 +3436,141 @@ onUnmounted(() => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .model-status-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .status-left {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .status-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .panel-header {
+    gap: 8px;
+  }
+
+  .panel-title {
+    font-size: 14px;
+  }
+
+  .scroll-container {
+    padding: 0;
+  }
+
+  .compact-form {
+    padding-bottom: 0;
+  }
+
+  .flux-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .alloy-table {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .particle-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .particle-manual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-footer {
+    position: static;
+    padding-top: 10px;
+    background: none;
+  }
+
+  .action-footer :deep(.n-space) {
+    width: 100%;
+  }
+
+  .action-footer :deep(.n-space-item) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .main-btn {
+    width: 100%;
+    height: 44px;
+    min-width: 0 !important;
+  }
+
+  .export-row {
+    justify-content: flex-start;
+  }
+
+  .chart-gauge {
+    height: 150px;
+  }
+
+  .chart-donut {
+    height: 180px;
+  }
+
+  .chart-lg {
+    height: 260px;
+  }
+
+  .accuracy-kpi-grid {
+    flex-wrap: wrap;
+  }
+
+  .accuracy-kpi {
+    min-width: 100%;
+  }
+
+  .accuracy-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-modal {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .impact-modal :deep(.n-card__content) {
+    padding: 12px 12px 20px !important;
+  }
+
+  .impact-modal :deep(.n-card-header) {
+    padding: 12px 12px 10px !important;
+  }
+
+  .impact-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .best-tuning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .combo-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .surface-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .surface-chart-card:last-child {
+    grid-column: auto;
+  }
 }
 </style>
